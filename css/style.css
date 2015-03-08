@@ -1,6 +1,33 @@
+body {
+    font-family: sans-serif;
+    background: #EEE;
+    margin: 0;
+}
+
+h2 {
+    color: #333;
+}
+
+a {
+    text-decoration: none;
+    color: #22A7F0;
+}
+
+a:hover {
+    color: #446CB3;
+}
+
+p {
+    font-size: 1.5em;
+}
+
+.text-center {
+    text-align: center;
+}
+
 .board {
     width: 30%;
-    height: 90%;
+    height: 80%;
     margin: auto;
     position: relative;
     border: solid;
