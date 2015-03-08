@@ -157,10 +157,6 @@ Piece.prototype = {
         } else if (this.type === 't') {
             t();
         }
-        switch(this.type) {
-            case 'bar':
-
-        }
     },
     left: function() {
         for (var i = this.blocks.length - 1; i >= 0; i--) {
