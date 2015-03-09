@@ -57,9 +57,7 @@ Piece.prototype = {
     },
     checkLocked: function() {
         for (var i = this.blocks.length - 1; i >= 0; i--) {
-            if (!this.board.getBlock(this.blocks[i].x, this.blocks[i].y + 1)) {
-                return true;
-            } else if(this.board.getBlock(this.blocks[i].x, this.blocks[i].y + 1).locked) {
+            if (!this.board.getBlockIfNotLocked(this.blocks[i].x, this.blocks[i].y + 1)) {
                 return true;
             }
         }
@@ -69,82 +67,150 @@ Piece.prototype = {
         var self = this;
         var bar = function() {
                 if (self.orientation === 0) {
-                    self.blocks[0] = self.board.getBlock(self.blocks[0].x + 1, self.blocks[0].y - 3);
-                    self.blocks[1] = self.board.getBlock(self.blocks[1].x, self.blocks[1].y - 2);
-                    self.blocks[2] = self.board.getBlock(self.blocks[2].x - 1, self.blocks[2].y - 1);
-                    self.blocks[3] = self.board.getBlock(self.blocks[3].x - 2, self.blocks[3].y);
-                    self.orientation = 1;
+                    if (self.board.getBlock(self.blocks[0].x + 1, self.blocks[0].y - 3)
+                        && self.board.getBlockIfNotLocked(self.blocks[1].x, self.blocks[1].y - 2)
+                        && self.board.getBlockIfNotLocked(self.blocks[2].x - 1, self.blocks[2].y - 1)
+                        && self.board.getBlockIfNotLocked(self.blocks[3].x - 2, self.blocks[3].y)) {
+
+                        self.blocks[0] = self.board.getBlockIfNotLocked(self.blocks[0].x + 1, self.blocks[0].y - 3);
+                        self.blocks[1] = self.board.getBlockIfNotLocked(self.blocks[1].x, self.blocks[1].y - 2);
+                        self.blocks[2] = self.board.getBlockIfNotLocked(self.blocks[2].x - 1, self.blocks[2].y - 1);
+                        self.blocks[3] = self.board.getBlockIfNotLocked(self.blocks[3].x - 2, self.blocks[3].y);
+                        self.orientation = 1;
+                    }
                 } else {
-                    self.blocks[0] = self.board.getBlock(self.blocks[0].x - 1, self.blocks[0].y + 3);
-                    self.blocks[1] = self.board.getBlock(self.blocks[1].x, self.blocks[1].y + 2);
-                    self.blocks[2] = self.board.getBlock(self.blocks[2].x + 1, self.blocks[2].y + 1);
-                    self.blocks[3] = self.board.getBlock(self.blocks[3].x + 2, self.blocks[3].y);
-                    self.orientation = 0;
+                    if (self.board.getBlockIfNotLocked(self.blocks[0].x - 1, self.blocks[0].y + 3)
+                        && self.board.getBlockIfNotLocked(self.blocks[1].x, self.blocks[1].y + 2)
+                        && self.board.getBlockIfNotLocked(self.blocks[2].x + 1, self.blocks[2].y + 1)
+                        && self.board.getBlockIfNotLocked(self.blocks[3].x + 2, self.blocks[3].y)) {
+
+                        self.blocks[0] = self.board.getBlockIfNotLocked(self.blocks[0].x - 1, self.blocks[0].y + 3);
+                        self.blocks[1] = self.board.getBlockIfNotLocked(self.blocks[1].x, self.blocks[1].y + 2);
+                        self.blocks[2] = self.board.getBlockIfNotLocked(self.blocks[2].x + 1, self.blocks[2].y + 1);
+                        self.blocks[3] = self.board.getBlockIfNotLocked(self.blocks[3].x + 2, self.blocks[3].y);
+                        self.orientation = 0;
+                    }
                 }
             },
             l = function() {
                 if (self.orientation === 0) {
-                    self.blocks[0] = self.board.getBlock(self.blocks[0].x, self.blocks[0].y - 2);
-                    self.blocks[1] = self.board.getBlock(self.blocks[1].x + 1, self.blocks[1].y - 1);
-                    self.blocks[2] = self.board.getBlock(self.blocks[2].x, self.blocks[2].y);
-                    self.blocks[3] = self.board.getBlock(self.blocks[3].x - 1, self.blocks[3].y + 1);
-                    self.orientation = 1
+                    if (self.board.getBlockIfNotLocked(self.blocks[0].x, self.blocks[0].y - 2)
+                        && self.board.getBlockIfNotLocked(self.blocks[1].x + 1, self.blocks[1].y - 1)
+                        && self.board.getBlockIfNotLocked(self.blocks[2].x, self.blocks[2].y)
+                        && self.board.getBlockIfNotLocked(self.blocks[3].x - 1, self.blocks[3].y + 1)) {
+
+                        self.blocks[0] = self.board.getBlockIfNotLocked(self.blocks[0].x, self.blocks[0].y - 2);
+                        self.blocks[1] = self.board.getBlockIfNotLocked(self.blocks[1].x + 1, self.blocks[1].y - 1);
+                        self.blocks[2] = self.board.getBlockIfNotLocked(self.blocks[2].x, self.blocks[2].y);
+                        self.blocks[3] = self.board.getBlockIfNotLocked(self.blocks[3].x - 1, self.blocks[3].y + 1);
+                        self.orientation = 1
+                    }
                 } else if (self.orientation === 1) {
-                    self.blocks[0] = self.board.getBlock(self.blocks[0].x + 2, self.blocks[0].y + 1);
-                    self.blocks[1] = self.board.getBlock(self.blocks[1].x + 1, self.blocks[1].y + 2);
-                    self.blocks[2] = self.board.getBlock(self.blocks[2].x, self.blocks[2].y + 1);
-                    self.blocks[3] = self.board.getBlock(self.blocks[3].x - 1, self.blocks[3].y);
-                    self.orientation = 2
+                    if (self.board.getBlockIfNotLocked(self.blocks[0].x + 2, self.blocks[0].y + 1)
+                        && self.board.getBlockIfNotLocked(self.blocks[1].x + 1, self.blocks[1].y + 2)
+                        && self.board.getBlockIfNotLocked(self.blocks[2].x, self.blocks[2].y + 1)
+                        && self.board.getBlockIfNotLocked(self.blocks[3].x - 1, self.blocks[3].y)) {
+
+                        self.blocks[0] = self.board.getBlockIfNotLocked(self.blocks[0].x + 2, self.blocks[0].y + 1);
+                        self.blocks[1] = self.board.getBlockIfNotLocked(self.blocks[1].x + 1, self.blocks[1].y + 2);
+                        self.blocks[2] = self.board.getBlockIfNotLocked(self.blocks[2].x, self.blocks[2].y + 1);
+                        self.blocks[3] = self.board.getBlockIfNotLocked(self.blocks[3].x - 1, self.blocks[3].y);
+                        self.orientation = 2
+                    }
                 } else if (self.orientation === 2) {
-                    self.blocks[0] = self.board.getBlock(self.blocks[0].x - 1, self.blocks[0].y + 1);
-                    self.blocks[1] = self.board.getBlock(self.blocks[1].x - 2, self.blocks[1].y);
-                    self.blocks[2] = self.board.getBlock(self.blocks[2].x - 1, self.blocks[2].y - 1);
-                    self.blocks[3] = self.board.getBlock(self.blocks[3].x, self.blocks[3].y - 2);
-                    self.orientation = 3;
+                    if (self.board.getBlockIfNotLocked(self.blocks[0].x - 1, self.blocks[0].y + 1)
+                        && self.board.getBlockIfNotLocked(self.blocks[1].x - 2, self.blocks[1].y)
+                        && self.board.getBlockIfNotLocked(self.blocks[2].x - 1, self.blocks[2].y - 1)
+                        && self.board.getBlockIfNotLocked(self.blocks[3].x, self.blocks[3].y - 2)) {
+
+                        self.blocks[0] = self.board.getBlockIfNotLocked(self.blocks[0].x - 1, self.blocks[0].y + 1);
+                        self.blocks[1] = self.board.getBlockIfNotLocked(self.blocks[1].x - 2, self.blocks[1].y);
+                        self.blocks[2] = self.board.getBlockIfNotLocked(self.blocks[2].x - 1, self.blocks[2].y - 1);
+                        self.blocks[3] = self.board.getBlockIfNotLocked(self.blocks[3].x, self.blocks[3].y - 2);
+                        self.orientation = 3;
+                    }
                 } else if (self.orientation === 3) {
-                    self.blocks[0] = self.board.getBlock(self.blocks[0].x - 1, self.blocks[0].y);
-                    self.blocks[1] = self.board.getBlock(self.blocks[1].x, self.blocks[1].y - 1);
-                    self.blocks[2] = self.board.getBlock(self.blocks[2].x + 1, self.blocks[2].y);
-                    self.blocks[3] = self.board.getBlock(self.blocks[3].x + 2, self.blocks[3].y + 1);
-                    self.orientation = 0;
+                    if (self.board.getBlockIfNotLocked(self.blocks[0].x - 1, self.blocks[0].y)
+                        && self.board.getBlockIfNotLocked(self.blocks[1].x, self.blocks[1].y - 1)
+                        && self.board.getBlockIfNotLocked(self.blocks[2].x + 1, self.blocks[2].y)
+                        && self.board.getBlockIfNotLocked(self.blocks[3].x + 2, self.blocks[3].y + 1)) {
+
+                        self.blocks[0] = self.board.getBlockIfNotLocked(self.blocks[0].x - 1, self.blocks[0].y);
+                        self.blocks[1] = self.board.getBlockIfNotLocked(self.blocks[1].x, self.blocks[1].y - 1);
+                        self.blocks[2] = self.board.getBlockIfNotLocked(self.blocks[2].x + 1, self.blocks[2].y);
+                        self.blocks[3] = self.board.getBlockIfNotLocked(self.blocks[3].x + 2, self.blocks[3].y + 1);
+                        self.orientation = 0;
+                    }
                 }
             },
             s = function() {
                 if (self.orientation === 0) {
-                    self.blocks[0] = self.board.getBlock(self.blocks[0].x, self.blocks[0].y - 2);
-                    self.blocks[1] = self.board.getBlock(self.blocks[1].x - 1, self.blocks[1].y - 1);
-                    self.blocks[3] = self.board.getBlock(self.blocks[3].x - 1, self.blocks[3].y + 1);
-                    self.orientation = 1
+                    if (self.board.getBlockIfNotLocked(self.blocks[0].x, self.blocks[0].y - 2)
+                        && self.board.getBlockIfNotLocked(self.blocks[1].x - 1, self.blocks[1].y - 1)
+                        && self.board.getBlockIfNotLocked(self.blocks[3].x - 1, self.blocks[3].y + 1)) {
+
+                        self.blocks[0] = self.board.getBlockIfNotLocked(self.blocks[0].x, self.blocks[0].y - 2);
+                        self.blocks[1] = self.board.getBlockIfNotLocked(self.blocks[1].x - 1, self.blocks[1].y - 1);
+                        self.blocks[3] = self.board.getBlockIfNotLocked(self.blocks[3].x - 1, self.blocks[3].y + 1);
+                        self.orientation = 1
+                    }
                 } else {
-                    self.blocks[0] = self.board.getBlock(self.blocks[0].x, self.blocks[0].y + 2);
-                    self.blocks[1] = self.board.getBlock(self.blocks[1].x + 1, self.blocks[1].y + 1);
-                    self.blocks[3] = self.board.getBlock(self.blocks[3].x + 1, self.blocks[3].y - 1);
-                    self.orientation = 0
+                    if (self.board.getBlockIfNotLocked(self.blocks[0].x, self.blocks[0].y + 2)
+                        && self.board.getBlockIfNotLocked(self.blocks[1].x + 1, self.blocks[1].y + 1)
+                        && self.board.getBlockIfNotLocked(self.blocks[3].x + 1, self.blocks[3].y - 1)) {
+
+                        self.blocks[0] = self.board.getBlockIfNotLocked(self.blocks[0].x, self.blocks[0].y + 2);
+                        self.blocks[1] = self.board.getBlockIfNotLocked(self.blocks[1].x + 1, self.blocks[1].y + 1);
+                        self.blocks[3] = self.board.getBlockIfNotLocked(self.blocks[3].x + 1, self.blocks[3].y - 1);
+                        self.orientation = 0
+                    }
                 }
             },
             t = function() {
                 if (self.orientation === 0) {
-                    self.blocks[0] = self.board.getBlock(self.blocks[0].x, self.blocks[0].y - 2);
-                    self.blocks[1] = self.board.getBlock(self.blocks[1].x - 1, self.blocks[1].y - 1);
-                    self.blocks[2] = self.board.getBlock(self.blocks[2].x - 2, self.blocks[2].y);
-                    self.orientation = 1
+                    if (self.board.getBlockIfNotLocked(self.blocks[0].x, self.blocks[0].y - 2)
+                        && self.board.getBlockIfNotLocked(self.blocks[1].x - 1, self.blocks[1].y - 1)
+                        && self.board.getBlockIfNotLocked(self.blocks[2].x - 2, self.blocks[2].y)) {
+
+                        self.blocks[0] = self.board.getBlockIfNotLocked(self.blocks[0].x, self.blocks[0].y - 2);
+                        self.blocks[1] = self.board.getBlockIfNotLocked(self.blocks[1].x - 1, self.blocks[1].y - 1);
+                        self.blocks[2] = self.board.getBlockIfNotLocked(self.blocks[2].x - 2, self.blocks[2].y);
+                        self.orientation = 1
+                    }
                 } else if (self.orientation === 1) {
-                    self.blocks[0] = self.board.getBlock(self.blocks[0].x + 2, self.blocks[0].y + 1);
-                    self.blocks[1] = self.board.getBlock(self.blocks[1].x + 1, self.blocks[1].y);
-                    self.blocks[2] = self.board.getBlock(self.blocks[2].x, self.blocks[2].y - 1);
-                    self.blocks[3] = self.board.getBlock(self.blocks[3].x, self.blocks[3].y + 1);
-                    self.orientation = 2
+                    if (self.board.getBlockIfNotLocked(self.blocks[0].x + 2, self.blocks[0].y + 1)
+                        && self.board.getBlockIfNotLocked(self.blocks[1].x + 1, self.blocks[1].y)
+                        && self.board.getBlockIfNotLocked(self.blocks[2].x, self.blocks[2].y - 1)
+                        && self.board.getBlockIfNotLocked(self.blocks[3].x, self.blocks[3].y + 1)) {
+
+                        self.blocks[0] = self.board.getBlockIfNotLocked(self.blocks[0].x + 2, self.blocks[0].y + 1);
+                        self.blocks[1] = self.board.getBlockIfNotLocked(self.blocks[1].x + 1, self.blocks[1].y);
+                        self.blocks[2] = self.board.getBlockIfNotLocked(self.blocks[2].x, self.blocks[2].y - 1);
+                        self.blocks[3] = self.board.getBlockIfNotLocked(self.blocks[3].x, self.blocks[3].y + 1);
+                        self.orientation = 2
+                    }
                 } else if (self.orientation === 2) {
-                    self.blocks[0] = self.board.getBlock(self.blocks[0].x - 1, self.blocks[0].y + 1);
-                    self.blocks[2] = self.board.getBlock(self.blocks[2].x + 1, self.blocks[2].y - 1);
-                    self.blocks[3] = self.board.getBlock(self.blocks[3].x - 1, self.blocks[3].y - 1);
-                    self.orientation = 3;
+                    if (self.board.getBlockIfNotLocked(self.blocks[0].x - 1, self.blocks[0].y + 1)
+                        && self.board.getBlockIfNotLocked(self.blocks[2].x + 1, self.blocks[2].y - 1)
+                        && self.board.getBlockIfNotLocked(self.blocks[3].x - 1, self.blocks[3].y - 1)) {
+
+                        self.blocks[0] = self.board.getBlockIfNotLocked(self.blocks[0].x - 1, self.blocks[0].y + 1);
+                        self.blocks[2] = self.board.getBlockIfNotLocked(self.blocks[2].x + 1, self.blocks[2].y - 1);
+                        self.blocks[3] = self.board.getBlockIfNotLocked(self.blocks[3].x - 1, self.blocks[3].y - 1);
+                        self.orientation = 3;
+                    }
                 } else if (self.orientation === 3) {
-                    self.blocks[0] = self.board.getBlock(self.blocks[0].x - 1, self.blocks[0].y);
-                    self.blocks[1] = self.board.getBlock(self.blocks[1].x, self.blocks[1].y + 1);
-                    self.blocks[2] = self.board.getBlock(self.blocks[2].x + 1, self.blocks[2].y + 2);
-                    self.blocks[3] = self.board.getBlock(self.blocks[3].x + 1, self.blocks[3].y);
-                    self.orientation = 0;
+                    if (self.board.getBlockIfNotLocked(self.blocks[0].x - 1, self.blocks[0].y)
+                        && self.board.getBlockIfNotLocked(self.blocks[1].x, self.blocks[1].y + 1)
+                        && self.board.getBlockIfNotLocked(self.blocks[2].x + 1, self.blocks[2].y + 2)
+                        && self.board.getBlockIfNotLocked(self.blocks[3].x + 1, self.blocks[3].y)) {
+
+                        self.blocks[0] = self.board.getBlockIfNotLocked(self.blocks[0].x - 1, self.blocks[0].y);
+                        self.blocks[1] = self.board.getBlockIfNotLocked(self.blocks[1].x, self.blocks[1].y + 1);
+                        self.blocks[2] = self.board.getBlockIfNotLocked(self.blocks[2].x + 1, self.blocks[2].y + 2);
+                        self.blocks[3] = self.board.getBlockIfNotLocked(self.blocks[3].x + 1, self.blocks[3].y);
+                        self.orientation = 0;
+                    }
                 }
             };
 
@@ -195,5 +261,13 @@ Piece.prototype = {
         for (var i = this.blocks.length - 1; i >= 0; i--) {
             this.blocks[i] = this.board.getBlock(this.blocks[i].x, this.blocks[i].y + 1);
         }
+    },
+    insideSpawnZone: function() {
+        for (var i = this.blocks.length - 1; i >= 0; i--) {
+            if (this.blocks[i].y < 4) {
+                return true;
+            }
+        }
+        return false;
     }
 };

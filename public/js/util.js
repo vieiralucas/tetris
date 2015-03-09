@@ -9,7 +9,7 @@ var util = {
             cyan: '#0FF',
             yellow: '#FF0'
         };
-        
+
         return colors[this.randomKey(colors)];
     },
     randomKey: function (obj) {

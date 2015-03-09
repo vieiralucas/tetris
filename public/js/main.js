@@ -1,12 +1,27 @@
 var board;
 var time = 0;
+var loop;
+var restartButton;
+var hint;
 
-function loop() {
-    setInterval(function() {
+function startLoop() {
+    loop = setInterval(function() {
         time += 1;
         run();
         paint();
     }, 600);
+}
+
+function stopLoop() {
+    clearInterval(loop);
+    restartButton.style.display = 'inline-block';
+}
+
+function restart() {
+    stopLoop();
+    board.clear();
+    restartButton.style.display = 'none';
+    startLoop();
 }
 
 function run() {
@@ -18,8 +33,15 @@ function paint() {
 }
 
 function init() {
+    restartButton = document.querySelector('.restart-btn');
+    restartButton.onclick = restart;
     board = new Board();
-    loop();
+    hint = document.querySelector('.hint');
+    hint.style.opacity = 1;
+    document.querySelector('.hint-ok').onclick = function() {
+        hint.style.display = 'none';
+        startLoop();
+    }
 }
 
 window.onload = function() {

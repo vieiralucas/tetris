@@ -37,12 +37,21 @@ Board.prototype = {
             }
         }
     },
+    getBlockIfNotLocked: function(x, y) {
+        var block = this.getBlock(x, y);
+        if (block && !block.locked) {
+            return block;
+        }
+    },
     run: function() {
         if (!this.piece || this.piece.locked) {
             this.piece = new Piece(this);
         }
         this.piece.run();
         this.checkForLineFill();
+        if (this.checkEndOfGame()) {
+            stopLoop();
+        }
     },
     paint: function() {
         for (var i = this.blocks.length - 1; i >= 0; i--) {
@@ -60,7 +69,7 @@ Board.prototype = {
         for (var y = 4; y < 25; y++) {
             var fill = true;
             for (var x = 0; x < 10; x++) {
-                if (!this.getBlock(x, y).locked) {
+                if (this.getBlockIfNotLocked(x, y)) {
                     fill = false;
                 }
             }
@@ -81,7 +90,11 @@ Board.prototype = {
             }
         }
     },
+    checkEndOfGame: function() {
+        return this.piece.locked && this.piece.insideSpawnZone();
+    },
     keyPressed: function(keyCode) {
+        console.log(keyCode);
         if (keyCode === 37) {
             this.piece.left();
         } else if (keyCode === 38) {
@@ -90,7 +103,16 @@ Board.prototype = {
             this.piece.right();
         } else if (keyCode === 40) {
             this.piece.down();
+        } else if (keyCode === 82) {
+            console.log('hue');
+            restart();
         }
         this.paint();
+    },
+    clear: function() {
+        this.piece = undefined;
+        for (var i = this.blocks.length - 1; i >= 0; i--) {
+            this.blocks[i].clear();
+        }
     }
 };
