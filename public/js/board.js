@@ -104,7 +104,6 @@ Board.prototype = {
         } else if (keyCode === 40) {
             this.piece.down();
         } else if (keyCode === 82) {
-            console.log('hue');
             restart();
         }
         this.paint();
