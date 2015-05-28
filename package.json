@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/vieiralucas/tetris/issues"
   },
-  "homepage": "https://github.com/vieiralucas/tetris"
+  "homepage": "https://github.com/vieiralucas/tetris",
+  "devDependencies": {
+    "express": "^4.12.4"
+  }
 }
